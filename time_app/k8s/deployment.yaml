@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: sample-time-app
-          image: docker.io/DOCKERHUB_USERNAME/sample-time-app:latest
+          image: docker.io/mingxuancui/sample-time-app:latest
           imagePullPolicy: Always
           ports:
             - name: http

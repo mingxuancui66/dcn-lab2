@@ -20,11 +20,9 @@ python -m unittest discover -s tests -v
 
 ## Build and run with Docker
 
-Replace `DOCKERHUB_USERNAME` with your Docker Hub username.
-
 ```bash
-docker build -t DOCKERHUB_USERNAME/sample-time-app:latest .
-docker run --rm --name sample-time-app -p 8080:8080 DOCKERHUB_USERNAME/sample-time-app:latest
+docker build -t mingxuancui/sample-time-app:latest .
+docker run --rm --name sample-time-app -p 8080:8080 mingxuancui/sample-time-app:latest
 curl http://127.0.0.1:8080/time
 ```
 
@@ -32,12 +30,12 @@ curl http://127.0.0.1:8080/time
 
 ```bash
 docker login
-docker push DOCKERHUB_USERNAME/sample-time-app:latest
+docker push mingxuancui/sample-time-app:latest
 ```
 
 ## Deploy to Kubernetes
 
-Update the image name in `k8s/deployment.yaml`, then run:
+Run:
 
 ```bash
 kubectl apply -f k8s/deployment.yaml
