@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-time-app
+  labels:
+    app: sample-time-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-time-app
+  template:
+    metadata:
+      labels:
+        app: sample-time-app
+    spec:
+      containers:
+        - name: sample-time-app
+          image: docker.io/DOCKERHUB_USERNAME/sample-time-app:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /time
+              port: http
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /time
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
