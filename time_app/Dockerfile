@@ -1,20 +1,20 @@
 FROM python:3.12-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PORT=8080
+RUN apt-get update \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN groupadd --system app && useradd --system --gid app --home-dir /app app
 
+RUN groupadd -g 799 nyu && \
+    useradd -r -u 999 -g nyu nyu
+
+# Set up a working folder and install the pre-reqs
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir --requirement requirements.txt
+RUN pip install Flask
 
-COPY --chown=app:app app.py .
+USER nyu
 
-USER app
+COPY --chown=nyu:nyu . .
 
-EXPOSE 8080
-
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "2", "--access-logfile", "-", "app:app"]
+CMD [ "python", "./run.py" ]
